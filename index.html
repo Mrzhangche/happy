@@ -17,10 +17,10 @@
         align-items: center;
         font-family: "Microsoft YaHei", sans-serif;
         background-color: #f5f5f5;
+        position: relative;
       }
 
       h1 {
-        font-family: "zhang", sans-serif !important;
         color: #333;
         margin: 20px 0;
       }
@@ -83,6 +83,45 @@
         content: "";
         display: inline-block;
       }
+
+      /* 添加弹框样式 */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        margin-bottom: 20px;
+      }
+
+      .modal-button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
     </style>
   </head>
   <body>
@@ -92,6 +131,16 @@
     </table>
     <button onclick="fillSudoku()">自动填充答案</button>
     <button onclick="checkSudoku()">检查答案</button>
+
+    <!-- 添加弹框HTML -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="modal" id="successModal">
+      <div class="modal-content">
+        <h2>恭喜！</h2>
+        <p>回答正确，即将进入下一题</p>
+      </div>
+      <button class="modal-button" onclick="goToNextQuestion()">确定</button>
+    </div>
 
     <script>
       // 数独谜题示例
@@ -251,8 +300,12 @@
             }
           }
         }
-        alert("答案正确！");
-        // 答案正确后跳转到选择题页面
+        // 替换原来的alert，显示自定义弹框
+        document.getElementById("modalOverlay").style.display = "block";
+        document.getElementById("successModal").style.display = "block";
+      }
+
+      function goToNextQuestion() {
         window.location.href = "index2.html";
       }
 

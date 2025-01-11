@@ -60,9 +60,44 @@
         background-color: #f2dede;
         color: #a94442;
       }
+
+      /* 添加全屏倒计时弹窗样式 */
+      .countdown-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 2em;
+      }
+
+      .countdown-content {
+        text-align: center;
+      }
+
+      .countdown-number {
+        font-size: 4em;
+        margin: 20px 0;
+      }
     </style>
   </head>
   <body>
+    <!-- 添加倒计时弹窗 -->
+    <div id="countdownModal" class="countdown-modal" style="display: none">
+      <div class="countdown-content">
+        <h2>恭喜你答对全部题目！</h2>
+        <div class="countdown-number" id="countdown">3</div>
+      </div>
+    </div>
+
     <div class="question-container">
       <h2>历史选择题</h2>
       <div class="question">
@@ -118,9 +153,21 @@
         if (isCorrect) {
           resultDiv.innerHTML =
             "恭喜你答对了！①④是正确答案。新中国成立初期取得巨大成就的主要原因是全国人民的努力和苏联的援助，以及把马克思主义基本原理同中国具体实际相结合。";
-          setTimeout(() => {
-            window.location.href = "index3.html";
-          }, 2000);
+
+          // 显示倒计时弹窗
+          const countdownModal = document.getElementById("countdownModal");
+          const countdownNumber = document.getElementById("countdown");
+          countdownModal.style.display = "flex";
+
+          let count = 3;
+          const timer = setInterval(() => {
+            count--;
+            countdownNumber.textContent = count;
+            if (count <= 0) {
+              clearInterval(timer);
+              window.location.href = "index3.html";
+            }
+          }, 1000);
         } else {
           resultDiv.innerHTML =
             "答案不正确，请重新思考。提示：考虑当时的历史背景和条件。";
